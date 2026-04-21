@@ -1,0 +1,87 @@
+<script>
+const chat = document.getElementById("chat");
+
+function addMsg(text, type) {
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  div.innerText = text;
+  chat.appendChild(div);
+
+  // auto scroll
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function smartReply(text) {
+  text = text.toLowerCase();
+
+  if (text.includes("hello") || text.includes("hi")) {
+    return "Hey 👋 I'm ZAYNEXIS AI! Kaise help karu?";
+  }
+
+  if (text.includes("name")) {
+    return "Mera naam ZAYNEXIS AI hai 🤖";
+  }
+
+  if (text.includes("kaise ho")) {
+    return "Main ek AI hoon 😄 always ready!";
+  }
+
+  if (text.includes("time")) {
+    return "⏰ Time: " + new Date().toLocaleTimeString();
+  }
+
+  if (text.includes("date")) {
+    return "📅 Date: " + new Date().toLocaleDateString();
+  }
+
+  if (text.includes("joke")) {
+    return "😂 Programmer ka breakup kyun hua? Kyunki usne commit nahi kiya!";
+  }
+
+  if (text.includes("motivate")) {
+    return "🔥 Tum kuch bhi kar sakte ho — bas consistency rakho!";
+  }
+
+  if (text.includes("allah")) {
+    return "🤲 Allah sabse bada hai, us par bharosa rakho.";
+  }
+
+  const replies = [
+    "Hmm interesting 🤔 aur batao...",
+    "Yeh acha sawal hai 😎",
+    "ZAYNEXIS thinking... 🧠",
+    "Future AI ready hai 🚀",
+    "Main seekh raha hoon 🔥"
+  ];
+
+  return replies[Math.floor(Math.random() * replies.length)];
+}
+
+function send() {
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  addMsg(text, "user");
+  input.value = "";
+
+  addMsg("Typing...", "ai");
+
+  setTimeout(() => {
+    document.querySelectorAll(".ai").forEach(e => {
+      if (e.innerText === "Typing...") e.remove();
+    });
+
+    const reply = smartReply(text);
+    addMsg(reply, "ai");
+  }, 700);
+}
+
+// ENTER key support
+document.getElementById("input").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    send();
+  }
+});
+</script>
